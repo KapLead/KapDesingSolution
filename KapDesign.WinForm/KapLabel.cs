@@ -1,60 +1,40 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Windows.Forms;
+﻿using System.Runtime.CompilerServices;
 using KapDesign.WinForm.Annotations;
 using KapDesign.WinForm.Core;
-using KapDesign.WinForm.Effects;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using KapDesign.WinForm.Properties;
 
 namespace KapDesign.WinForm
 {
     public class KapLabel : Label, INotifyPropertyChanged
     {
-        private DropShadowEffect _effect = null;
-
-        [Category("Kap"),Browsable(true),Localizable(true)]
-        [EditorBrowsable(EditorBrowsableState.Always),RefreshProperties(RefreshProperties.All)]
-        public DropShadowEffect Effect {
-            get => _effect;
-            set
-            {
-                if (Equals(value, _effect)) return;
-                _effect = value;
-                OnPropertyChanged();
-            }
-        }
 
 
-        public KapLabel()
+        public KapLabel() : base()
         {
-            _effect = new DropShadowEffect();
-            Padding op;
-            PropertyChanged+= (sender, args) => Invalidate();
+
+            base.BackColor = Color.Transparent;
+            base.TextAlign = ContentAlignment.MiddleCenter;
+            base.AutoSize = false;
+            base.Width = 160; 
+            base.Height = 60;
+            PropertyChanged += (sender, args) => Invalidate();
         }
 
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(new SolidBrush(Color.Transparent), e.ClipRectangle);
+            e.Graphics.FillRectangle(new SolidBrush(BackColor), base.ClientRectangle);
 
             var ha = TextAlign.GetAlignment();
             var va = TextAlign.GetLineAlignment();
 
-            if (Effect != null)
+            e.Graphics.DrawString(Text, Font, new SolidBrush(Styles.Currents.Style.Foreground), e.ClipRectangle, new StringFormat
             {
-                var rad = Math.PI / 180.0;
-                var dx = Math.Sin(rad * Effect.Direction) * Effect.Radius;
-                var dy = Math.Cos(rad * Effect.Direction) * Effect.Radius;
-                var round = e.ClipRectangle;
-                round.Offset((int)dx,(int)dy);
-                e.Graphics.DrawString(Text,Font,new SolidBrush(Styles.Currents.Style.Foreground),round,new StringFormat
-                { Alignment = ha, LineAlignment = va });
-            }
-
-            e.Graphics.DrawString(Text,Font,new SolidBrush(Styles.Currents.Style.Foreground),e.ClipRectangle,new StringFormat
-            {
-                Alignment = ha, LineAlignment = va 
+                Alignment = ha,
+                LineAlignment = va
             });
 
         }
@@ -72,5 +52,16 @@ namespace KapDesign.WinForm
 
         #endregion
 
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // KapLabel
+            // 
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.Image = global::KapDesign.WinForm.Properties.Resources.tr_1kx1k;
+            this.ResumeLayout(false);
+
+        }
     }
 }

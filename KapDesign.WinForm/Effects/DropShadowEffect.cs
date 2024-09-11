@@ -4,6 +4,7 @@ using System.ComponentModel;
 using KapDesign.WinForm.Converters;
 using KapDesign.WinForm.Annotations;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace KapDesign.WinForm.Effects
 {
@@ -19,11 +20,7 @@ namespace KapDesign.WinForm.Effects
 
         #endregion
 
-        [Localizable(true)]
-        [Browsable(true)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [RefreshProperties(RefreshProperties.All)]
-        [Category("Kap")]
+        [Category("Kap"), Localizable(true), TypeConverter(typeof(ColorConverter)), Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All)]
         public Color Color {
             get => _color;
             set
@@ -34,11 +31,7 @@ namespace KapDesign.WinForm.Effects
             }
         }
 
-        [Localizable(true)]
-        [Browsable(true)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [RefreshProperties(RefreshProperties.All)]
-        [Category("Kap")]
+        [Category("Kap"), Localizable(true), TypeConverter(typeof(DoubleConverter)), Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All)]
         public double Direction {
             get => _direction;
             set
@@ -49,11 +42,7 @@ namespace KapDesign.WinForm.Effects
             }
         }
 
-        [Localizable(true)]
-        [Browsable(true)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [RefreshProperties(RefreshProperties.All)]
-        [Category("Kap")]
+        [Category("Kap"),Localizable(true), TypeConverter(typeof(DoubleConverter)), Browsable(true),EditorBrowsable(EditorBrowsableState.Always),RefreshProperties(RefreshProperties.All)]
         public double Radius {
             get => _radius;
             set
@@ -70,6 +59,8 @@ namespace KapDesign.WinForm.Effects
         {
             
         }
+
+        public override string ToString() => $"{Color.A},{Color.R},{Color.G},{Color.B}|{Direction}|{Radius}";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
